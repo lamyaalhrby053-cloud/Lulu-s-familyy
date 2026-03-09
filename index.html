@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lulu's Family</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<!-- صفحة الترحيب -->
+<div id="page1" class="page">
+    <div id="welcome-box" class="glass-box">
+        <h1>❤️ كل عام وأنتم بخير ❤️</h1>
+        <button id="move-btn">اضغط هنا</button>
+    </div>
+</div>
+
+<!-- صفحة إدخال الرمز -->
+<div id="page2" class="page" style="display:none;">
+    <div class="glass-box">
+        <p>كما أوصانا النبي -صلى الله عليه وسلم-: (تَهَادَوْا تَحَابُّوا)</p>
+        <p>ولتجديد ذكرى فعالية كُل عام ولإشباع فضولك حيال من ستهدي، ضع الرمز الخاص بك:</p>
+        <input type="text" id="user-code" placeholder="ادخل الرمز هنا">
+        <button onclick="checkCode()">إرسال</button>
+        <p id="message"></p>
+    </div>
+</div>
+
+<!-- الصفحة الرئيسية بعد الرمز -->
+<div id="page3" class="page" style="display:none;">
+    <div class="glass-box">
+        <h2 id="giver-name">---</h2>
+        <p id="receiver-name">---</p>
+        <h3>اقتراحات الهدايا:</h3>
+        <ul id="gift-list">
+            <li>سماعه طبيه👨🏻‍⚕️</li>
+            <li>شحن روبلوكس👶🏻</li>
+            <li>ميكب🎀</li>
+            <li>بسطار👨🏻‍✈️</li>
+            <li>عطور❤️‍🔥</li>
+        </ul>
+        <div class="countdown">
+            <p>تبقى للعيد: 10 أيام</p>
+        </div>
+    </div>
+</div>
+
+<script src="js/script.js"></script>
+</body>
+</html>
