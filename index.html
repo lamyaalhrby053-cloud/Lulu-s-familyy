@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Lulu Family</title>
-
 <style>
 body{
 margin:0;
@@ -21,11 +20,13 @@ display:flex;
 justify-content:center;
 align-items:center;
 flex-direction:column;
+position:relative;
 }
 
 /* المربعات */
 .box{
-background:rgba(255,255,255,0.7);
+background:rgba(255,255,255,0.6);
+backdrop-filter:blur(8px);
 padding:30px;
 border-radius:25px;
 width:80%;
@@ -48,18 +49,10 @@ cursor:pointer;
 }
 
 /* البالونات */
-.balloons{
-position:fixed;
-top:0;
-width:100%;
+.balloon{
+position:absolute;
 font-size:30px;
-animation:float 6s infinite linear;
-}
-
-@keyframes float{
-0%{transform:translateY(0)}
-50%{transform:translateY(20px)}
-100%{transform:translateY(0)}
+animation:float linear infinite;
 }
 
 /* اهتزاز */
@@ -75,16 +68,28 @@ animation:shake 0.3s;
 100%{transform:translate(0)}
 }
 
-/* الصفحة الثانية والثالثة */
-#page2 .box, #page3 .box{
-position:relative;
+@keyframes float{
+0%{transform:translateY(0);}
+100%{transform:translateY(-100vh);}
 }
+
+input{
+margin-top:15px;
+padding:10px;
+border-radius:8px;
+border:1px solid pink;
+width:70%;
+text-align:center;
+}
+
+ul{list-style:none;padding:0;}
+li{margin:5px 0;}
 </style>
 </head>
-
 <body>
 
-<div class="balloons">🎈 🎈 🎈 🎈 🎈</div>
+<!-- بالونات -->
+<div id="balloonsContainer"></div>
 
 <!-- الصفحة الأولى -->
 <div id="page1" class="page">
@@ -120,39 +125,46 @@ position:relative;
 <li>بسطار 👨🏻‍✈️</li>
 <li>عطور ❤️‍🔥</li>
 </ul>
-<p>تبقى للعيد: 10 أيام</p>
+<p>تبقى للعيد: <span id="countdown">10</span> أيام</p>
 </div>
 </div>
 
 <script>
+// ========================= البالونات =========================
+const balloonsContainer = document.getElementById("balloonsContainer");
+const colors = ["🎈","🎉","🎊"];
+for(let i=0;i<15;i++){
+  const b=document.createElement("div");
+  b.className="balloon";
+  b.innerText=colors[Math.floor(Math.random()*colors.length)];
+  b.style.left=Math.random()*window.innerWidth+"px";
+  b.style.animationDuration=(4+Math.random()*4)+"s";
+  b.style.fontSize=(20+Math.random()*20)+"px";
+  balloonsContainer.appendChild(b);
+}
 
-// ========================= الصفحة الأولى: المربع الهارب =========================
-let clicks = 0;
+// ========================= الصفحة الأولى =========================
+let clicks=0;
 function moveBox(){
 const box=document.getElementById("welcomeBox");
 clicks++;
-
-/* اهتزاز */
 box.classList.add("shake");
 setTimeout(()=>{box.classList.remove("shake");},300);
 
-/* المقلب */
 if(clicks==4){
-box.innerHTML=`
-<h2>خلاص أمزح 😆</h2>
-<button onclick="goNext()">آخر مرة اضغط هنا</button>
-`;
+box.innerHTML=`<h2>خلاص أمزح 😆</h2>
+<button onclick="goNext()">آخر مرة اضغط هنا</button>`;
 return;
 }
 
-/* حركة داخل شاشة الجوال */
-const maxX = window.innerWidth - box.offsetWidth;
-const maxY = window.innerHeight - box.offsetHeight;
-const x = Math.random() * maxX;
-const y = Math.random() * maxY;
-box.style.left = x + "px";
-box.style.top = y + "px";
-box.style.position = "absolute";
+// حركة عشوائية داخل شاشة الجوال
+const maxX=window.innerWidth-box.offsetWidth;
+const maxY=window.innerHeight-box.offsetHeight;
+const x=Math.random()*maxX;
+const y=Math.random()*maxY;
+box.style.left=x+"px";
+box.style.top=y+"px";
+box.style.position="absolute";
 }
 
 function goNext(){
@@ -176,32 +188,26 @@ const codes={
 1425:"لولو"
 };
 
-// ========================= تعيين المستلم بدون تكرار =========================
-const assignedReceivers = {}; // حفظ من سيهدي لمن
+const assignedReceivers={}; // لمنع التكرار
 
 function checkCode(){
 const input=document.getElementById("codeInput").value;
 const person=codes[input];
-const msg = document.getElementById("msg");
+const msg=document.getElementById("msg");
 
 if(person){
-msg.innerText=""; 
-
-// منع تكرار المستلم
+msg.innerText="";
 const names=Object.values(codes);
 let receiver;
-
 do{
-receiver = names[Math.floor(Math.random()*names.length)];
+receiver=names[Math.floor(Math.random()*names.length)];
 }while(receiver===person || Object.values(assignedReceivers).includes(receiver));
 
 assignedReceivers[person]=receiver;
 
-// إظهار الصفحة الثالثة
 document.getElementById("page2").style.display="none";
 document.getElementById("page3").style.display="flex";
 
-// كتابة الأسماء
 document.getElementById("giver").innerText=person;
 document.getElementById("receiver").innerText=receiver;
 
@@ -211,6 +217,12 @@ msg.style.color="red";
 }
 }
 
+// ========================= عداد العيد =========================
+let daysLeft=10;
+const countdownEl=document.getElementById("countdown");
+setInterval(()=>{
+if(daysLeft>0){daysLeft--; countdownEl.innerText=daysLeft;}
+},86400000); // يومياً
 </script>
 
 </body>
