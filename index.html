@@ -3,11 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Lulu Family</title>
 
 <style>
-
 body{
 margin:0;
 font-family:Arial;
@@ -17,7 +15,6 @@ overflow:hidden;
 }
 
 /* الصفحات */
-
 .page{
 height:100vh;
 display:flex;
@@ -27,7 +24,6 @@ flex-direction:column;
 }
 
 /* المربعات */
-
 .box{
 background:rgba(255,255,255,0.7);
 padding:30px;
@@ -40,7 +36,6 @@ transition:0.4s;
 }
 
 /* الزر */
-
 button{
 margin-top:20px;
 padding:10px 20px;
@@ -53,7 +48,6 @@ cursor:pointer;
 }
 
 /* البالونات */
-
 .balloons{
 position:fixed;
 top:0;
@@ -69,7 +63,6 @@ animation:float 6s infinite linear;
 }
 
 /* اهتزاز */
-
 .shake{
 animation:shake 0.3s;
 }
@@ -82,6 +75,10 @@ animation:shake 0.3s;
 100%{transform:translate(0)}
 }
 
+/* الصفحة الثانية والثالثة */
+#page2 .box, #page3 .box{
+position:relative;
+}
 </style>
 </head>
 
@@ -90,132 +87,80 @@ animation:shake 0.3s;
 <div class="balloons">🎈 🎈 🎈 🎈 🎈</div>
 
 <!-- الصفحة الأولى -->
-
 <div id="page1" class="page">
-
 <div id="welcomeBox" class="box">
-
 <h2>❤️ كل عام وانتم بخير ❤️</h2>
-
 <button onclick="moveBox()">اضغط هنا</button>
-
 </div>
-
 </div>
 
 <!-- الصفحة الثانية -->
-
 <div id="page2" class="page" style="display:none">
-
-<div class="box" style="position:relative">
-
-<p>
-كما اوصانا النبي ﷺ  
-(تهادوا تحابوا)
-</p>
-
-<p>
-ولتجديد ذكرى الفعالية  
-ولاشباع فضولك حيال من ستهدي  
-ضع الرمز الخاص بك
-</p>
-
+<div class="box">
+<p>كما أوصانا النبي ﷺ (تهادوا تحابوا)</p>
+<p>ولتجديد ذكرى الفعالية ولإشباع فضولك حيال من ستهدي ضع الرمز الخاص بك</p>
 <input id="codeInput" placeholder="ادخل الرمز">
-
 <br>
-
 <button onclick="checkCode()">دخول</button>
-
 <p id="msg"></p>
-
+</div>
 </div>
 
-</div>
 <!-- الصفحة الثالثة -->
-
 <div id="page3" class="page" style="display:none">
-
-<div class="box" style="position:relative">
-
+<div class="box">
 <h3 id="giver"></h3>
-
 <p>انت ستهدي</p>
-
 <h2 id="receiver"></h2>
-
 <h3>اقتراحات الهدايا</h3>
-
 <ul>
-
 <li>سماعه طبيه 👨🏻‍⚕️</li>
 <li>شحن روبلوكس 👶🏻</li>
 <li>ميكب 🎀</li>
 <li>بسطار 👨🏻‍✈️</li>
 <li>عطور ❤️‍🔥</li>
-
 </ul>
-
-<p>تبقى للعيد: 10 ايام</p>
-
+<p>تبقى للعيد: 10 أيام</p>
 </div>
-
 </div>
 
 <script>
 
-let clicks=0;
-
+// ========================= الصفحة الأولى: المربع الهارب =========================
+let clicks = 0;
 function moveBox(){
-
 const box=document.getElementById("welcomeBox");
-
 clicks++;
 
 /* اهتزاز */
-
 box.classList.add("shake");
-
-setTimeout(()=>{
-
-box.classList.remove("shake");
-
-},300);
+setTimeout(()=>{box.classList.remove("shake");},300);
 
 /* المقلب */
-
 if(clicks==4){
-
 box.innerHTML=`
-<h2>خلاص امزح 😆</h2>
-<button onclick="goNext()">اخر مرة اضغط هنا</button>
+<h2>خلاص أمزح 😆</h2>
+<button onclick="goNext()">آخر مرة اضغط هنا</button>
 `;
-
 return;
-
 }
 
 /* حركة داخل شاشة الجوال */
-
-const maxX=window.innerWidth-box.offsetWidth;
-const maxY=window.innerHeight-box.offsetHeight;
-
-const x=Math.random()*maxX;
-const y=Math.random()*maxY;
-
-box.style.left=x+"px";
-box.style.top=y+"px";
-
+const maxX = window.innerWidth - box.offsetWidth;
+const maxY = window.innerHeight - box.offsetHeight;
+const x = Math.random() * maxX;
+const y = Math.random() * maxY;
+box.style.left = x + "px";
+box.style.top = y + "px";
+box.style.position = "absolute";
 }
 
 function goNext(){
-
 document.getElementById("page1").style.display="none";
 document.getElementById("page2").style.display="flex";
-
 }
 
-/* الرموز */
-
+// ========================= الرموز =========================
 const codes={
 2004:"شهد",
 2008:"علياء",
@@ -231,23 +176,42 @@ const codes={
 1425:"لولو"
 };
 
+// ========================= تعيين المستلم بدون تكرار =========================
+const assignedReceivers = {}; // حفظ من سيهدي لمن
+
 function checkCode(){
-
 const input=document.getElementById("codeInput").value;
+const person=codes[input];
+const msg = document.getElementById("msg");
 
-if(codes[input]){
+if(person){
+msg.innerText=""; 
 
-alert("تم الدخول بنجاح 🎉");
+// منع تكرار المستلم
+const names=Object.values(codes);
+let receiver;
+
+do{
+receiver = names[Math.floor(Math.random()*names.length)];
+}while(receiver===person || Object.values(assignedReceivers).includes(receiver));
+
+assignedReceivers[person]=receiver;
+
+// إظهار الصفحة الثالثة
+document.getElementById("page2").style.display="none";
+document.getElementById("page3").style.display="flex";
+
+// كتابة الأسماء
+document.getElementById("giver").innerText=person;
+document.getElementById("receiver").innerText=receiver;
 
 }else{
-
-document.getElementById("msg").innerText="الرمز غير صحيح";
-
+msg.innerText="الرمز غير صحيح";
+msg.style.color="red";
 }
-
 }
 
 </script>
 
 </body>
-</html> 
+</html>
