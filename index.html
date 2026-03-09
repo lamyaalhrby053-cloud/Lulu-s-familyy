@@ -1,94 +1,43 @@
-<!DOCTYPE html>
-<html lang="ar">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lulu Family</title>
-
-<style>
-
-body{
-margin:0;
-font-family:Arial;
-background:#ffc0cb;
-text-align:center;
-overflow:hidden;
-}
-
-.page{
-height:100vh;
-display:flex;
-justify-content:center;
-align-items:center;
-flex-direction:column;
-}
-
-.box{
-background:rgba(255,255,255,0.7);
-padding:30px;
-border-radius:20px;
-width:80%;
-max-width:350px;
-box-shadow:0 5px 15px rgba(0,0,0,0.2);
-position:absolute;
-transition:0.4s;
-}
-
-button{
-margin-top:20px;
-padding:10px 20px;
-border:none;
-border-radius:10px;
-background:#ff69b4;
-color:white;
-font-size:16px;
-cursor:pointer;
-}
-
-</style>
-</head>
-
-<body>
-
-<div id="page1" class="page">
-
-<div id="welcomeBox" class="box">
-
-<h2>❤️ كل عام وانتم بخير ❤️</h2>
-
-<button onclick="moveBox()">اضغط هنا</button>
-
-</div>
-
-</div>
-
-
 <script>
 
-let clicks=0;
+let clicks = 0;
 
 function moveBox(){
 
-const box=document.getElementById("welcomeBox");
+const box = document.getElementById("welcomeBox");
 
 clicks++;
 
-if(clicks>=5){
+// بعد 4 ضغطات يظهر المقلب
+if(clicks == 4){
 
-alert("خلاص امزح هذي اخر مرة 😆");
+box.innerHTML = `
+<h2>خلاص أمزح 😂</h2>
+<button onclick="goNext()">آخر مرة اضغط هنا</button>
+`;
 
 return;
 
 }
 
-const x=(Math.random()*400)-200;
-const y=(Math.random()*400)-200;
+// تحريك داخل شاشة الجوال فقط
+const maxX = window.innerWidth - box.offsetWidth;
+const maxY = window.innerHeight - box.offsetHeight;
 
-box.style.transform=`translate(${x}px , ${y}px)`;
+const x = Math.random() * maxX;
+const y = Math.random() * maxY;
+
+box.style.left = x + "px";
+box.style.top = y + "px";
+box.style.position = "absolute";
+
+}
+
+function goNext(){
+
+document.getElementById("page1").style.display="none";
+document.getElementById("page2").style.display="flex";
 
 }
 
 </script>
-
-</body>
-</html>
