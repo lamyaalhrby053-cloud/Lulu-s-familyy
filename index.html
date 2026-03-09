@@ -111,22 +111,41 @@ li{margin:5px 0;}
 </div>
 </div>
 
-<!-- الصفحة الثالثة -->
+<!-- الصفحة الثالثة --><!-- الصفحة الثالثة -->
 <div id="page3" class="page" style="display:none">
-<div class="box">
-<h3 id="giver"></h3>
-<p>انت ستهدي</p>
-<h2 id="receiver"></h2>
-<h3>اقتراحات الهدايا</h3>
-<ul>
-<li>سماعه طبيه 👨🏻‍⚕️</li>
-<li>شحن روبلوكس 👶🏻</li>
-<li>ميكب 🎀</li>
-<li>بسطار 👨🏻‍✈️</li>
-<li>عطور ❤️‍🔥</li>
-</ul>
-<p>تبقى للعيد: <span id="countdown">10</span> أيام</p>
-</div>
+  <div class="box" style="position:relative; padding:20px;">
+
+    <!-- اسم الشخص -->
+    <h3 id="giver" style="margin-bottom:10px; font-size:24px; color:#d63384;"></h3>
+
+    <p style="font-size:18px; margin-bottom:10px;">انت ستهدي</p>
+
+    <!-- الشخص الذي ستهديه -->
+    <h2 id="receiver" style="font-size:28px; color:#ff1493; margin-bottom:20px;"></h2>
+
+    <!-- اقتراحات الهدايا داخل مربع -->
+    <div style="background:rgba(255,255,255,0.5); padding:15px; border-radius:15px; margin-bottom:20px;">
+      <h3 style="margin-bottom:10px;">اقتراحات الهدايا</h3>
+      <ul style="list-style:none; padding:0; margin:0; text-align:center;">
+        <li>🎧 سماعه طبيه 👨🏻‍⚕️</li>
+        <li>💰 شحن روبلوكس 👶🏻</li>
+        <li>💄 ميكب 🎀</li>
+        <li>🧰 بسطار 👨🏻‍✈️</li>
+        <li>❤️‍🔥 عطور</li>
+      </ul>
+    </div>
+
+    <!-- مؤقت العيد داخل مربع -->
+    <div style="background:rgba(255,182,193,0.5); padding:10px; border-radius:12px; margin-bottom:20px;">
+      <p>⏳ تبقى للعيد: <span id="countdown">10</span> أيام</p>
+    </div>
+
+    <!-- الجملة النهائية -->
+    <p style="margin-top:20px; font-size:14px; color:#6b2d5c;">
+      ولا يمانع من إهداء صاحبه الموقع على إجتهادها الشخصي 🥰
+    </p>
+
+  </div>
 </div>
 
 <script>
