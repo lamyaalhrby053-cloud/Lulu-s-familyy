@@ -1,35 +1,180 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Lulu Family</title>
+
+<style>
+
+body{
+margin:0;
+font-family:Arial;
+background:#ffc0cb;
+text-align:center;
+overflow:hidden;
+}
+
+/* الصفحات */
+
+.page{
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+}
+
+/* المربعات */
+
+.box{
+background:rgba(255,255,255,0.7);
+padding:30px;
+border-radius:25px;
+width:80%;
+max-width:350px;
+box-shadow:0 10px 20px rgba(0,0,0,0.2);
+position:absolute;
+transition:0.4s;
+}
+
+/* الزر */
+
+button{
+margin-top:20px;
+padding:10px 20px;
+border:none;
+border-radius:10px;
+background:#ff69b4;
+color:white;
+font-size:16px;
+cursor:pointer;
+}
+
+/* البالونات */
+
+.balloons{
+position:fixed;
+top:0;
+width:100%;
+font-size:30px;
+animation:float 6s infinite linear;
+}
+
+@keyframes float{
+0%{transform:translateY(0)}
+50%{transform:translateY(20px)}
+100%{transform:translateY(0)}
+}
+
+/* اهتزاز */
+
+.shake{
+animation:shake 0.3s;
+}
+
+@keyframes shake{
+0%{transform:translate(0)}
+25%{transform:translate(-5px)}
+50%{transform:translate(5px)}
+75%{transform:translate(-5px)}
+100%{transform:translate(0)}
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="balloons">🎈 🎈 🎈 🎈 🎈</div>
+
+<!-- الصفحة الأولى -->
+
+<div id="page1" class="page">
+
+<div id="welcomeBox" class="box">
+
+<h2>❤️ كل عام وانتم بخير ❤️</h2>
+
+<button onclick="moveBox()">اضغط هنا</button>
+
+</div>
+
+</div>
+
+<!-- الصفحة الثانية -->
+
+<div id="page2" class="page" style="display:none">
+
+<div class="box" style="position:relative">
+
+<p>
+كما اوصانا النبي ﷺ  
+(تهادوا تحابوا)
+</p>
+
+<p>
+ولتجديد ذكرى الفعالية  
+ولاشباع فضولك حيال من ستهدي  
+ضع الرمز الخاص بك
+</p>
+
+<input id="codeInput" placeholder="ادخل الرمز">
+
+<br>
+
+<button onclick="checkCode()">دخول</button>
+
+<p id="msg"></p>
+
+</div>
+
+</div>
+
 <script>
 
-let clicks = 0;
+let clicks=0;
 
 function moveBox(){
 
-const box = document.getElementById("welcomeBox");
+const box=document.getElementById("welcomeBox");
 
 clicks++;
 
-// بعد 4 ضغطات يظهر المقلب
-if(clicks == 4){
+/* اهتزاز */
 
-box.innerHTML = `
-<h2>خلاص أمزح 😂</h2>
-<button onclick="goNext()">آخر مرة اضغط هنا</button>
+box.classList.add("shake");
+
+setTimeout(()=>{
+
+box.classList.remove("shake");
+
+},300);
+
+/* المقلب */
+
+if(clicks==4){
+
+box.innerHTML=`
+<h2>خلاص امزح 😆</h2>
+<button onclick="goNext()">اخر مرة اضغط هنا</button>
 `;
 
 return;
 
 }
 
-// تحريك داخل شاشة الجوال فقط
-const maxX = window.innerWidth - box.offsetWidth;
-const maxY = window.innerHeight - box.offsetHeight;
+/* حركة داخل شاشة الجوال */
 
-const x = Math.random() * maxX;
-const y = Math.random() * maxY;
+const maxX=window.innerWidth-box.offsetWidth;
+const maxY=window.innerHeight-box.offsetHeight;
 
-box.style.left = x + "px";
-box.style.top = y + "px";
-box.style.position = "absolute";
+const x=Math.random()*maxX;
+const y=Math.random()*maxY;
+
+box.style.left=x+"px";
+box.style.top=y+"px";
 
 }
 
@@ -40,4 +185,40 @@ document.getElementById("page2").style.display="flex";
 
 }
 
+/* الرموز */
+
+const codes={
+2004:"شهد",
+2008:"علياء",
+2007:"راكان",
+2011:"فارس",
+1989:"احمد",
+1995:"محمد",
+1991:"فيصل",
+1993:"رايد",
+1997:"نجد",
+2001:"غاده",
+1999:"ساره",
+1425:"لولو"
+};
+
+function checkCode(){
+
+const input=document.getElementById("codeInput").value;
+
+if(codes[input]){
+
+alert("تم الدخول بنجاح 🎉");
+
+}else{
+
+document.getElementById("msg").innerText="الرمز غير صحيح";
+
+}
+
+}
+
 </script>
+
+</body>
+</html>
