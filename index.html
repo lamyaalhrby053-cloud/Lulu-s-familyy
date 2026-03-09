@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ar">
 <head>
 <meta charset="UTF-8">
@@ -32,7 +32,7 @@ body{
   padding:30px;
   border-radius:25px;
   width:80%;
-  max-width:350px;
+  max-width:400px;
   box-shadow:0 10px 25px rgba(0,0,0,0.3);
   position:absolute;
   transition:0.4s all ease;
@@ -73,17 +73,17 @@ button:active{transform:scale(0.95);}
 75%{transform:translate(15px,75vh);}
 100%{transform:translate(0,110vh);}
 }
-input{
+input, textarea{
   margin-top:15px;
   padding:10px;
   border-radius:8px;
   border:1px solid pink;
-  width:70%;
+  width:80%;
   text-align:center;
+  font-size:16px;
 }
 ul{list-style:none; padding:0;}
 li{margin:5px 0;}
-/* انفجار كونفيتي */
 .confetti-piece{
   position:absolute;
   width:10px;
@@ -124,8 +124,15 @@ li{margin:5px 0;}
   <div class="box">
     <h3 id="giver" style="margin-bottom:10px; font-size:24px; color:#d63384;"></h3>
     <p style="font-size:18px; margin-bottom:10px;">انت ستهدي</p>
-    <h2 id="receiver" style="font-size:28px; color:#ff1493; margin-bottom:20px;"></h2>
+    <h2 id="receiver" style="font-size:28px; color:#ff1493; margin-bottom:15px;"></h2>
 
+    <!-- خانة الهدايا المفضلة -->
+    <div style="background:rgba(255,255,255,0.5); padding:15px; border-radius:15px; margin-bottom:15px;">
+      <p>💌 أكتب الهدايا التي ترغب بها:</p>
+      <textarea id="favoriteGift" placeholder="اكتب هنا" rows="2"></textarea>
+    </div>
+
+    <!-- اقتراحات الهدايا -->
     <div style="background:rgba(255,255,255,0.5); padding:15px; border-radius:15px; margin-bottom:20px;">
       <h3 style="margin-bottom:10px;">اقتراحات الهدايا</h3>
       <ul style="list-style:none; padding:0; margin:0; text-align:center;">
@@ -137,6 +144,7 @@ li{margin:5px 0;}
       </ul>
     </div>
 
+    <!-- عداد العيد -->
     <div style="background:rgba(255,182,193,0.5); padding:10px; border-radius:12px; margin-bottom:20px;">
       <p>⏳ تبقى للعيد: <span id="countdown">10</span> أيام، 
       <span id="hours">00</span> : <span id="minutes">00</span> : <span id="seconds">00</span></p>
@@ -149,7 +157,7 @@ li{margin:5px 0;}
 </div>
 
 <script>
-// البالونات والإيموجيات
+// بالونات وإيموجيات
 const emojiContainer = document.getElementById("emojiContainer");
 const emojis=["🎈","🎉","💖","✨","🎊"];
 for(let i=0;i<30;i++){
@@ -170,7 +178,6 @@ function moveBox(){
   clicks++;
   box.classList.add("shake");
   setTimeout(()=>{box.classList.remove("shake");},300);
-
   if(clicks==4){
     box.innerHTML=`<h2>خلاص أمزح 😆</h2>
     <button onclick="goNext()">آخر مرة اضغط هنا</button>`;
@@ -189,7 +196,7 @@ function goNext(){
   document.getElementById("page2").style.display="flex";
 }
 
-// الرموز
+// الرموز + قرعة ثابتة
 const codes={
 2004:"شهد",
 2008:"علياء",
@@ -204,7 +211,22 @@ const codes={
 1999:"ساره",
 1425:"لولو"
 };
-const assignedReceivers={};
+
+// القرعة الثابتة لكل شخص
+const fixedReceivers={
+"شهد":"علياء",
+"علياء":"راكان",
+"راكان":"فارس",
+"فارس":"محمد",
+"احمد":"لولو",
+"محمد":"نجد",
+"فيصل":"رايد",
+"رايد":"ساره",
+"نجد":"فارس",
+"غاده":"احمد",
+"ساره":"لولو",
+"لولو":"شهد"
+};
 
 function checkCode(){
   const input=document.getElementById("codeInput").value;
@@ -212,12 +234,7 @@ function checkCode(){
   const msg=document.getElementById("msg");
   if(person){
     msg.innerText="";
-    const names=Object.values(codes);
-    let receiver;
-    do{
-      receiver=names[Math.floor(Math.random()*names.length)];
-    }while(receiver===person || Object.values(assignedReceivers).includes(receiver));
-    assignedReceivers[person]=receiver;
+    const receiver=fixedReceivers[person];
 
     document.getElementById("page2").style.display="none";
     document.getElementById("page3").style.display="flex";
@@ -225,31 +242,27 @@ function checkCode(){
     document.getElementById("giver").innerText=person;
     document.getElementById("receiver").innerText=receiver;
 
-    // انفجار الكونفيتي عند ظهور الصفحة الثالثة
-    createConfetti();
+    createConfetti(); // انفجار الكونفيتي
   }else{
     msg.innerText="الرمز غير صحيح";
     msg.style.color="red";
   }
 }
 
-// عداد العيد بالايام والساعات والدقائق والثواني
+// عداد العيد
 let countdownDate = new Date();
 countdownDate.setDate(countdownDate.getDate() + 10);
 const hoursEl = document.getElementById("hours");
 const minutesEl = document.getElementById("minutes");
 const secondsEl = document.getElementById("seconds");
 const countdownEl = document.getElementById("countdown");
-
 setInterval(()=>{
   const now = new Date().getTime();
   const distance = countdownDate - now;
-
   let days = Math.floor(distance / (1000*60*60*24));
   let hours = Math.floor((distance % (1000*60*60*24))/(1000*60*60));
   let minutes = Math.floor((distance % (1000*60*60))/(1000*60));
   let seconds = Math.floor((distance % (1000*60))/1000);
-
   if(distance<0){days=0;hours=0;minutes=0;seconds=0;}
   countdownEl.innerText = days;
   hoursEl.innerText = hours.toString().padStart(2,"0");
@@ -270,7 +283,6 @@ function createConfetti(){
     c.style.height=(5+Math.random()*5)+"px";
     c.style.opacity=Math.random();
     container.appendChild(c);
-
     let speed = 2 + Math.random()*3;
     (function animateConfetti(el,s){
       let top = parseFloat(el.style.top);
@@ -288,6 +300,5 @@ function createConfetti(){
   }
 }
 </script>
-
 </body>
 </html>
