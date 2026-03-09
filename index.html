@@ -3,48 +3,224 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lulu's Family</title>
-<link rel="stylesheet" href="css/style.css">
+
+<title>Lulu Family</title>
+
+<style>
+
+body{
+margin:0;
+font-family:Arial;
+background:#ffc0cb;
+text-align:center;
+}
+
+.page{
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+}
+
+.box{
+background:rgba(255,255,255,0.7);
+padding:30px;
+border-radius:20px;
+width:80%;
+max-width:400px;
+box-shadow:0 5px 15px rgba(0,0,0,0.2);
+}
+
+button{
+margin-top:20px;
+padding:10px 20px;
+border:none;
+border-radius:10px;
+background:#ff69b4;
+color:white;
+font-size:16px;
+cursor:pointer;
+}
+
+input{
+margin-top:15px;
+padding:10px;
+border-radius:8px;
+border:1px solid pink;
+width:70%;
+text-align:center;
+}
+
+ul{
+list-style:none;
+padding:0;
+}
+
+li{
+margin:5px 0;
+}
+
+</style>
 </head>
+
 <body>
-<!-- صفحة الترحيب -->
+
+<!-- الصفحة الأولى -->
 <div id="page1" class="page">
-    <div id="welcome-box" class="glass-box">
-        <h1>❤️ كل عام وأنتم بخير ❤️</h1>
-        <button id="move-btn">اضغط هنا</button>
-    </div>
+
+<div id="welcomeBox" class="box">
+
+<h2>❤️ كل عام وانتم بخير ❤️</h2>
+
+<button onclick="moveBox()">اضغط هنا</button>
+
 </div>
 
-<!-- صفحة إدخال الرمز -->
-<div id="page2" class="page" style="display:none;">
-    <div class="glass-box">
-        <p>كما أوصانا النبي -صلى الله عليه وسلم-: (تَهَادَوْا تَحَابُّوا)</p>
-        <p>ولتجديد ذكرى فعالية كُل عام ولإشباع فضولك حيال من ستهدي، ضع الرمز الخاص بك:</p>
-        <input type="text" id="user-code" placeholder="ادخل الرمز هنا">
-        <button onclick="checkCode()">إرسال</button>
-        <p id="message"></p>
-    </div>
 </div>
 
-<!-- الصفحة الرئيسية بعد الرمز -->
-<div id="page3" class="page" style="display:none;">
-    <div class="glass-box">
-        <h2 id="giver-name">---</h2>
-        <p id="receiver-name">---</p>
-        <h3>اقتراحات الهدايا:</h3>
-        <ul id="gift-list">
-            <li>سماعه طبيه👨🏻‍⚕️</li>
-            <li>شحن روبلوكس👶🏻</li>
-            <li>ميكب🎀</li>
-            <li>بسطار👨🏻‍✈️</li>
-            <li>عطور❤️‍🔥</li>
-        </ul>
-        <div class="countdown">
-            <p>تبقى للعيد: 10 أيام</p>
-        </div>
-    </div>
+
+<!-- الصفحة الثانية -->
+<div id="page2" class="page" style="display:none">
+
+<div class="box">
+
+<p>
+كما اوصانا النبي ﷺ  
+(تهادوا تحابوا)
+</p>
+
+<p>
+ولتجديد ذكرى الفعالية  
+ولاشباع فضولك حيال من ستهدي  
+ضع الرمز الخاص بك
+</p>
+
+<input id="codeInput" placeholder="ادخل الرمز">
+
+<br>
+
+<button onclick="checkCode()">دخول</button>
+
+<p id="msg"></p>
+
 </div>
 
-<script src="js/script.js"></script>
+</div>
+
+
+<!-- الصفحة الثالثة -->
+<div id="page3" class="page" style="display:none">
+
+<div class="box">
+
+<h3 id="giver"></h3>
+
+<p>انت ستهدي</p>
+
+<h2 id="receiver"></h2>
+
+<h3>اقتراحات هدايا</h3>
+
+<ul>
+
+<li>سماعه طبيه 👨🏻‍⚕️</li>
+<li>شحن روبلوكس 👶🏻</li>
+<li>ميكب 🎀</li>
+<li>بسطار 👨🏻‍✈️</li>
+<li>عطور ❤️‍🔥</li>
+
+</ul>
+
+<p>تبقى للعيد: 10 ايام</p>
+
+</div>
+
+</div>
+
+
+<script>
+
+let clicks = 0;
+
+function moveBox(){
+
+const box = document.getElementById("welcomeBox");
+
+clicks++;
+
+if(clicks >= 5){
+
+document.getElementById("page1").style.display="none";
+document.getElementById("page2").style.display="flex";
+return;
+
+}
+
+const x = Math.random()*300;
+const y = Math.random()*500;
+
+box.style.position="absolute";
+box.style.left=x+"px";
+box.style.top=y+"px";
+
+}
+
+
+const codes = {
+
+"2004":"شهد",
+"2008":"علياء",
+"2007":"راكان",
+"2011":"فارس",
+"1989":"احمد",
+"1995":"محمد",
+"1991":"فيصل",
+"1993":"رايد",
+"1997":"نجد",
+"2001":"غاده",
+"1999":"ساره",
+"1425":"لولو"
+
+};
+
+
+function checkCode(){
+
+const input=document.getElementById("codeInput").value;
+
+const person=codes[input];
+
+if(person){
+
+document.getElementById("page2").style.display="none";
+document.getElementById("page3").style.display="flex";
+
+document.getElementById("giver").innerText=person;
+
+const names=Object.values(codes);
+
+let randomName;
+
+do{
+
+randomName=names[Math.floor(Math.random()*names.length)];
+
+}while(randomName===person);
+
+document.getElementById("receiver").innerText=randomName;
+
+}
+
+else{
+
+document.getElementById("msg").innerText="الرمز غير صحيح";
+
+}
+
+}
+
+</script>
+
 </body>
 </html>
