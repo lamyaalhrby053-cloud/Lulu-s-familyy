@@ -4,126 +4,134 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Lulu Family</title>
+
+<!-- خط عربي -->
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+
 <style>
 body{
-margin:0;
-font-family:Arial;
-background:#ffc0cb;
-text-align:center;
-overflow:hidden;
+  margin:0;
+  font-family:'Cairo', Arial, sans-serif;
+  background: linear-gradient(135deg, #ffc0cb, #ffb6c1, #ff69b4);
+  text-align:center;
+  overflow:hidden;
+  position:relative;
 }
 
 /* الصفحات */
 .page{
-height:100vh;
-display:flex;
-justify-content:center;
-align-items:center;
-flex-direction:column;
-position:relative;
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  position:relative;
+  overflow:hidden;
 }
 
 /* المربعات */
 .box{
-background:rgba(255,255,255,0.6);
-backdrop-filter:blur(8px);
-padding:30px;
-border-radius:25px;
-width:80%;
-max-width:350px;
-box-shadow:0 10px 20px rgba(0,0,0,0.2);
-position:absolute;
-transition:0.4s;
+  background:rgba(255,255,255,0.6);
+  backdrop-filter:blur(15px);
+  padding:30px;
+  border-radius:25px;
+  width:80%;
+  max-width:350px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.3);
+  position:absolute;
+  transition:0.4s all ease;
 }
 
-/* الزر */
+/* الأزرار */
 button{
-margin-top:20px;
-padding:10px 20px;
-border:none;
-border-radius:10px;
-background:#ff69b4;
-color:white;
-font-size:16px;
-cursor:pointer;
+  margin-top:20px;
+  padding:10px 20px;
+  border:none;
+  border-radius:10px;
+  background:#ff69b4;
+  color:white;
+  font-size:16px;
+  cursor:pointer;
+  transition:0.3s;
 }
-
-/* البالونات */
-.balloon{
-position:absolute;
-font-size:30px;
-animation:float linear infinite;
-}
+button:hover{transform:scale(1.05);}
+button:active{transform:scale(0.95);}
 
 /* اهتزاز */
 .shake{
-animation:shake 0.3s;
+  animation:shake 0.3s;
 }
-
 @keyframes shake{
-0%{transform:translate(0)}
-25%{transform:translate(-5px)}
-50%{transform:translate(5px)}
-75%{transform:translate(-5px)}
-100%{transform:translate(0)}
+  0%{transform:translate(0)}
+  25%{transform:translate(-5px)}
+  50%{transform:translate(5px)}
+  75%{transform:translate(-5px)}
+  100%{transform:translate(0)}
 }
 
-@keyframes float{
-0%{transform:translateY(0);}
-100%{transform:translateY(-100vh);}
+/* ايموجيات وبالونات متحركة zig-zag */
+.flying{
+  position:absolute;
+  font-size:24px;
+  animation-name:fallZigZag;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  pointer-events:none;
+}
+@keyframes fallZigZag{
+  0%{transform:translate(0,-50px);}
+  25%{transform:translate(20px,25vh);}
+  50%{transform:translate(-15px,50vh);}
+  75%{transform:translate(15px,75vh);}
+  100%{transform:translate(0,110vh);}
 }
 
 input{
-margin-top:15px;
-padding:10px;
-border-radius:8px;
-border:1px solid pink;
-width:70%;
-text-align:center;
+  margin-top:15px;
+  padding:10px;
+  border-radius:8px;
+  border:1px solid pink;
+  width:70%;
+  text-align:center;
 }
 
-ul{list-style:none;padding:0;}
+ul{list-style:none; padding:0;}
 li{margin:5px 0;}
 </style>
 </head>
+
 <body>
 
-<!-- بالونات -->
-<div id="balloonsContainer"></div>
+<!-- ايموجيات الطائرة -->
+<div id="emojiContainer"></div>
 
 <!-- الصفحة الأولى -->
 <div id="page1" class="page">
-<div id="welcomeBox" class="box">
-<h2>❤️ كل عام وانتم بخير ❤️</h2>
-<button onclick="moveBox()">اضغط هنا</button>
-</div>
+  <div id="welcomeBox" class="box">
+    <h2>❤️ كل عام وانتم بخير ❤️</h2>
+    <button onclick="moveBox()">اضغط هنا</button>
+  </div>
 </div>
 
 <!-- الصفحة الثانية -->
 <div id="page2" class="page" style="display:none">
-<div class="box">
-<p>كما أوصانا النبي ﷺ (تهادوا تحابوا)</p>
-<p>ولتجديد ذكرى الفعالية ولإشباع فضولك حيال من ستهدي ضع الرمز الخاص بك</p>
-<input id="codeInput" placeholder="ادخل الرمز">
-<br>
-<button onclick="checkCode()">دخول</button>
-<p id="msg"></p>
-</div>
+  <div class="box">
+    <p>كما أوصانا النبي ﷺ (تهادوا تحابوا)</p>
+    <p>ولتجديد ذكرى الفعالية ولإشباع فضولك حيال من ستهدي ضع الرمز الخاص بك</p>
+    <input id="codeInput" placeholder="ادخل الرمز">
+    <br>
+    <button onclick="checkCode()">دخول</button>
+    <p id="msg"></p>
+  </div>
 </div>
 
-<!-- الصفحة الثالثة --><!-- الصفحة الثالثة -->
+<!-- الصفحة الثالثة -->
 <div id="page3" class="page" style="display:none">
-  <div class="box" style="position:relative; padding:20px;">
-
-    <!-- اسم الشخص -->
+  <div class="box">
     <h3 id="giver" style="margin-bottom:10px; font-size:24px; color:#d63384;"></h3>
-
     <p style="font-size:18px; margin-bottom:10px;">انت ستهدي</p>
-
-    <!-- الشخص الذي ستهديه -->
     <h2 id="receiver" style="font-size:28px; color:#ff1493; margin-bottom:20px;"></h2>
 
-    <!-- اقتراحات الهدايا داخل مربع -->
     <div style="background:rgba(255,255,255,0.5); padding:15px; border-radius:15px; margin-bottom:20px;">
       <h3 style="margin-bottom:10px;">اقتراحات الهدايا</h3>
       <ul style="list-style:none; padding:0; margin:0; text-align:center;">
@@ -135,60 +143,57 @@ li{margin:5px 0;}
       </ul>
     </div>
 
-    <!-- مؤقت العيد داخل مربع -->
     <div style="background:rgba(255,182,193,0.5); padding:10px; border-radius:12px; margin-bottom:20px;">
-      <p>⏳ تبقى للعيد: <span id="countdown">10</span> أيام</p>
+      <p>⏳ تبقى للعيد: <span id="countdown">10</span> أيام، <span id="hours">00</span> : <span id="minutes">00</span> : <span id="seconds">00</span></p>
     </div>
 
-    <!-- الجملة النهائية -->
     <p style="margin-top:20px; font-size:14px; color:#6b2d5c;">
       ولا يمانع من إهداء صاحبه الموقع على إجتهادها الشخصي 🥰
     </p>
-
   </div>
 </div>
 
 <script>
-// ========================= البالونات =========================
-const balloonsContainer = document.getElementById("balloonsContainer");
-const colors = ["🎈","🎉","🎊"];
-for(let i=0;i<15;i++){
-  const b=document.createElement("div");
-  b.className="balloon";
-  b.innerText=colors[Math.floor(Math.random()*colors.length)];
-  b.style.left=Math.random()*window.innerWidth+"px";
-  b.style.animationDuration=(4+Math.random()*4)+"s";
-  b.style.fontSize=(20+Math.random()*20)+"px";
-  balloonsContainer.appendChild(b);
+// ========================= ايموجيات وبالونات =========================
+const emojiContainer = document.getElementById("emojiContainer");
+const emojis=["🎈","🎉","💖","✨","🎊"];
+for(let i=0;i<30;i++){
+  const e=document.createElement("div");
+  e.className="flying";
+  e.innerText=emojis[Math.floor(Math.random()*emojis.length)];
+  e.style.left=Math.random()*window.innerWidth+"px";
+  e.style.fontSize=(20+Math.random()*20)+"px";
+  e.style.animationDuration=(4+Math.random()*6)+"s";
+  e.style.animationDelay=(Math.random()*5)+"s";
+  emojiContainer.appendChild(e);
 }
 
-// ========================= الصفحة الأولى =========================
+// ========================= الصفحة الأولى: المربع الهارب =========================
 let clicks=0;
 function moveBox(){
-const box=document.getElementById("welcomeBox");
-clicks++;
-box.classList.add("shake");
-setTimeout(()=>{box.classList.remove("shake");},300);
+  const box=document.getElementById("welcomeBox");
+  clicks++;
+  box.classList.add("shake");
+  setTimeout(()=>{box.classList.remove("shake");},300);
 
-if(clicks==4){
-box.innerHTML=`<h2>خلاص أمزح 😆</h2>
-<button onclick="goNext()">آخر مرة اضغط هنا</button>`;
-return;
-}
+  if(clicks==4){
+    box.innerHTML=`<h2>خلاص أمزح 😆</h2>
+    <button onclick="goNext()">آخر مرة اضغط هنا</button>`;
+    return;
+  }
 
-// حركة عشوائية داخل شاشة الجوال
-const maxX=window.innerWidth-box.offsetWidth;
-const maxY=window.innerHeight-box.offsetHeight;
-const x=Math.random()*maxX;
-const y=Math.random()*maxY;
-box.style.left=x+"px";
-box.style.top=y+"px";
-box.style.position="absolute";
+  const maxX=window.innerWidth-box.offsetWidth;
+  const maxY=window.innerHeight-box.offsetHeight;
+  const x=Math.random()*maxX;
+  const y=Math.random()*maxY;
+  box.style.left=x+"px";
+  box.style.top=y+"px";
+  box.style.position="absolute";
 }
 
 function goNext(){
-document.getElementById("page1").style.display="none";
-document.getElementById("page2").style.display="flex";
+  document.getElementById("page1").style.display="none";
+  document.getElementById("page2").style.display="flex";
 }
 
 // ========================= الرموز =========================
@@ -206,42 +211,55 @@ const codes={
 1999:"ساره",
 1425:"لولو"
 };
-
-const assignedReceivers={}; // لمنع التكرار
+const assignedReceivers={};
 
 function checkCode(){
-const input=document.getElementById("codeInput").value;
-const person=codes[input];
-const msg=document.getElementById("msg");
+  const input=document.getElementById("codeInput").value;
+  const person=codes[input];
+  const msg=document.getElementById("msg");
+  if(person){
+    msg.innerText="";
+    const names=Object.values(codes);
+    let receiver;
+    do{
+      receiver=names[Math.floor(Math.random()*names.length)];
+    }while(receiver===person || Object.values(assignedReceivers).includes(receiver));
+    assignedReceivers[person]=receiver;
 
-if(person){
-msg.innerText="";
-const names=Object.values(codes);
-let receiver;
-do{
-receiver=names[Math.floor(Math.random()*names.length)];
-}while(receiver===person || Object.values(assignedReceivers).includes(receiver));
+    document.getElementById("page2").style.display="none";
+    document.getElementById("page3").style.display="flex";
 
-assignedReceivers[person]=receiver;
-
-document.getElementById("page2").style.display="none";
-document.getElementById("page3").style.display="flex";
-
-document.getElementById("giver").innerText=person;
-document.getElementById("receiver").innerText=receiver;
-
-}else{
-msg.innerText="الرمز غير صحيح";
-msg.style.color="red";
-}
+    document.getElementById("giver").innerText=person;
+    document.getElementById("receiver").innerText=receiver;
+  }else{
+    msg.innerText="الرمز غير صحيح";
+    msg.style.color="red";
+  }
 }
 
-// ========================= عداد العيد =========================
-let daysLeft=10;
-const countdownEl=document.getElementById("countdown");
+// ========================= عداد العيد بالساعات والدقائق والثواني =========================
+let countdownDate = new Date();
+countdownDate.setDate(countdownDate.getDate() + 10); // 10 أيام
+const hoursEl = document.getElementById("hours");
+const minutesEl = document.getElementById("minutes");
+const secondsEl = document.getElementById("seconds");
+const countdownEl = document.getElementById("countdown");
+
 setInterval(()=>{
-if(daysLeft>0){daysLeft--; countdownEl.innerText=daysLeft;}
-},86400000); // يومياً
+  const now = new Date().getTime();
+  const distance = countdownDate - now;
+
+  let days = Math.floor(distance / (1000*60*60*24));
+  let hours = Math.floor((distance % (1000*60*60*24))/(1000*60*60));
+  let minutes = Math.floor((distance % (1000*60*60))/(1000*60));
+  let seconds = Math.floor((distance % (1000*60))/1000);
+
+  if(distance<0){days=0;hours=0;minutes=0;seconds=0;}
+  countdownEl.innerText = days;
+  hoursEl.innerText = hours.toString().padStart(2,"0");
+  minutesEl.innerText = minutes.toString().padStart(2,"0");
+  secondsEl.innerText = seconds.toString().padStart(2,"0");
+},1000);
 </script>
 
 </body>
