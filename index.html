@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lulu's Family</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- صفحة الترحيب -->
+    <div id="welcome-page" class="page">
+        <div class="welcome-box">
+            <h1>أهلًا وسهلًا، كل عام وأنت بخير 🌸</h1>
+            <p class="hadith">كما أوصانا النبي -صلى الله عليه وسلم-: (تَهَادَوْا تَحَابُّوا)</p>
+            <p class="instructions">
+                لتجديد ذكرى الفعالية وإشباع فضولك حيال من ستهدي، ضع الرمز الخاص بك:
+            </p>
+            <input type="text" id="user-code" placeholder="ادخل الرمز هنا">
+            <button onclick="checkCode()">إرسال</button>
+            <p id="message"></p>
+        </div>
+    </div>
+
+    <!-- الصفحة الرئيسية بعد إدخال الرمز -->
+    <div id="main-page" class="page" style="display:none;">
+        <!-- بالونات -->
+        <div class="balloons">
+            🎈 🎈 🎈 🎈 🎈
+        </div>
+
+        <!-- أشرطة ملونة -->
+        <div class="stripes">
+            <div class="stripe red"></div>
+            <div class="stripe yellow"></div>
+            <div class="stripe blue"></div>
+            <div class="stripe green"></div>
+            <div class="stripe purple"></div>
+        </div>
+
+        <header>
+            <h1>🌸 Lulu's Family 🌸</h1>
+        </header>
+
+        <main>
+            <!-- مربع المعطي والمستلم -->
+            <div class="name-box">
+                <h2 id="giver-name">---</h2>
+                <p id="receiver-name">---</p>
+            </div>
+
+            <!-- اقتراحات الهدايا -->
+            <div class="gift-suggestions">
+                <h3>اقتراحات الهدايا:</h3>
+                <ul id="gift-list">
+                    <!-- الاقتراحات ستظهر هنا -->
+                </ul>
+            </div>
+
+            <!-- مؤقت العيد -->
+            <div class="countdown">
+                <h3>تبقى للعيد:</h3>
+                <p id="days-left">10 أيام</p>
+            </div>
+        </main>
+
+        <footer>
+            <p>ولا يمانع من هديه أخرى لـصاحبه الجُهد لولو 💖</p>
+        </footer>
+    </div>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
