@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="ar">
 <head>
 <meta charset="UTF-8">
@@ -17,8 +17,6 @@ body{
   overflow:hidden;
   position:relative;
 }
-
-/* الصفحات */
 .page{
   height:100vh;
   display:flex;
@@ -28,8 +26,6 @@ body{
   position:relative;
   overflow:hidden;
 }
-
-/* المربعات */
 .box{
   background:rgba(255,255,255,0.6);
   backdrop-filter:blur(15px);
@@ -41,8 +37,6 @@ body{
   position:absolute;
   transition:0.4s all ease;
 }
-
-/* الأزرار */
 button{
   margin-top:20px;
   padding:10px 20px;
@@ -56,20 +50,14 @@ button{
 }
 button:hover{transform:scale(1.05);}
 button:active{transform:scale(0.95);}
-
-/* اهتزاز */
-.shake{
-  animation:shake 0.3s;
-}
+.shake{animation:shake 0.3s;}
 @keyframes shake{
-  0%{transform:translate(0)}
-  25%{transform:translate(-5px)}
-  50%{transform:translate(5px)}
-  75%{transform:translate(-5px)}
-  100%{transform:translate(0)}
+0%{transform:translate(0)}
+25%{transform:translate(-5px)}
+50%{transform:translate(5px)}
+75%{transform:translate(-5px)}
+100%{transform:translate(0)}
 }
-
-/* ايموجيات وبالونات متحركة zig-zag */
 .flying{
   position:absolute;
   font-size:24px;
@@ -79,13 +67,12 @@ button:active{transform:scale(0.95);}
   pointer-events:none;
 }
 @keyframes fallZigZag{
-  0%{transform:translate(0,-50px);}
-  25%{transform:translate(20px,25vh);}
-  50%{transform:translate(-15px,50vh);}
-  75%{transform:translate(15px,75vh);}
-  100%{transform:translate(0,110vh);}
+0%{transform:translate(0,-50px);}
+25%{transform:translate(20px,25vh);}
+50%{transform:translate(-15px,50vh);}
+75%{transform:translate(15px,75vh);}
+100%{transform:translate(0,110vh);}
 }
-
 input{
   margin-top:15px;
   padding:10px;
@@ -94,18 +81,25 @@ input{
   width:70%;
   text-align:center;
 }
-
 ul{list-style:none; padding:0;}
 li{margin:5px 0;}
+/* انفجار كونفيتي */
+.confetti-piece{
+  position:absolute;
+  width:10px;
+  height:10px;
+  background-color:#fff;
+  opacity:0.8;
+  transform:rotate(45deg);
+}
 </style>
 </head>
-
 <body>
 
-<!-- ايموجيات الطائرة -->
 <div id="emojiContainer"></div>
+<div id="confettiContainer"></div>
 
-<!-- الصفحة الأولى -->
+<!-- الصفحة 1 -->
 <div id="page1" class="page">
   <div id="welcomeBox" class="box">
     <h2>❤️ كل عام وانتم بخير ❤️</h2>
@@ -113,7 +107,7 @@ li{margin:5px 0;}
   </div>
 </div>
 
-<!-- الصفحة الثانية -->
+<!-- الصفحة 2 -->
 <div id="page2" class="page" style="display:none">
   <div class="box">
     <p>كما أوصانا النبي ﷺ (تهادوا تحابوا)</p>
@@ -125,7 +119,7 @@ li{margin:5px 0;}
   </div>
 </div>
 
-<!-- الصفحة الثالثة -->
+<!-- الصفحة 3 -->
 <div id="page3" class="page" style="display:none">
   <div class="box">
     <h3 id="giver" style="margin-bottom:10px; font-size:24px; color:#d63384;"></h3>
@@ -144,7 +138,8 @@ li{margin:5px 0;}
     </div>
 
     <div style="background:rgba(255,182,193,0.5); padding:10px; border-radius:12px; margin-bottom:20px;">
-      <p>⏳ تبقى للعيد: <span id="countdown">10</span> أيام، <span id="hours">00</span> : <span id="minutes">00</span> : <span id="seconds">00</span></p>
+      <p>⏳ تبقى للعيد: <span id="countdown">10</span> أيام، 
+      <span id="hours">00</span> : <span id="minutes">00</span> : <span id="seconds">00</span></p>
     </div>
 
     <p style="margin-top:20px; font-size:14px; color:#6b2d5c;">
@@ -154,7 +149,7 @@ li{margin:5px 0;}
 </div>
 
 <script>
-// ========================= ايموجيات وبالونات =========================
+// البالونات والإيموجيات
 const emojiContainer = document.getElementById("emojiContainer");
 const emojis=["🎈","🎉","💖","✨","🎊"];
 for(let i=0;i<30;i++){
@@ -168,7 +163,7 @@ for(let i=0;i<30;i++){
   emojiContainer.appendChild(e);
 }
 
-// ========================= الصفحة الأولى: المربع الهارب =========================
+// الصفحة الأولى: المربع الهارب
 let clicks=0;
 function moveBox(){
   const box=document.getElementById("welcomeBox");
@@ -181,7 +176,6 @@ function moveBox(){
     <button onclick="goNext()">آخر مرة اضغط هنا</button>`;
     return;
   }
-
   const maxX=window.innerWidth-box.offsetWidth;
   const maxY=window.innerHeight-box.offsetHeight;
   const x=Math.random()*maxX;
@@ -190,13 +184,12 @@ function moveBox(){
   box.style.top=y+"px";
   box.style.position="absolute";
 }
-
 function goNext(){
   document.getElementById("page1").style.display="none";
   document.getElementById("page2").style.display="flex";
 }
 
-// ========================= الرموز =========================
+// الرموز
 const codes={
 2004:"شهد",
 2008:"علياء",
@@ -231,15 +224,18 @@ function checkCode(){
 
     document.getElementById("giver").innerText=person;
     document.getElementById("receiver").innerText=receiver;
+
+    // انفجار الكونفيتي عند ظهور الصفحة الثالثة
+    createConfetti();
   }else{
     msg.innerText="الرمز غير صحيح";
     msg.style.color="red";
   }
 }
 
-// ========================= عداد العيد بالساعات والدقائق والثواني =========================
+// عداد العيد بالايام والساعات والدقائق والثواني
 let countdownDate = new Date();
-countdownDate.setDate(countdownDate.getDate() + 10); // 10 أيام
+countdownDate.setDate(countdownDate.getDate() + 10);
 const hoursEl = document.getElementById("hours");
 const minutesEl = document.getElementById("minutes");
 const secondsEl = document.getElementById("seconds");
@@ -260,6 +256,37 @@ setInterval(()=>{
   minutesEl.innerText = minutes.toString().padStart(2,"0");
   secondsEl.innerText = seconds.toString().padStart(2,"0");
 },1000);
+
+// انفجار الكونفيتي
+function createConfetti(){
+  const container = document.getElementById("confettiContainer");
+  for(let i=0;i<100;i++){
+    const c=document.createElement("div");
+    c.className="confetti-piece";
+    c.style.backgroundColor=`hsl(${Math.random()*360},80%,70%)`;
+    c.style.left=Math.random()*window.innerWidth+"px";
+    c.style.top="-20px";
+    c.style.width=(5+Math.random()*5)+"px";
+    c.style.height=(5+Math.random()*5)+"px";
+    c.style.opacity=Math.random();
+    container.appendChild(c);
+
+    let speed = 2 + Math.random()*3;
+    (function animateConfetti(el,s){
+      let top = parseFloat(el.style.top);
+      let left = parseFloat(el.style.left);
+      function frame(){
+        top += s;
+        left += Math.sin(top/10)*2;
+        el.style.top=top+"px";
+        el.style.left=left+"px";
+        if(top<window.innerHeight) requestAnimationFrame(frame);
+        else el.remove();
+      }
+      frame();
+    })(c,speed);
+  }
+}
 </script>
 
 </body>
