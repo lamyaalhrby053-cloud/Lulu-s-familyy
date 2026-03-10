@@ -23,9 +23,21 @@ input, textarea { margin-top:15px; padding:10px; border-radius:8px; border:1px s
 .admin-table th, .admin-table td { border: 1px solid #ff69b4; padding: 8px; text-align: center; }
 .admin-table th { background-color: #ffb6c1; }
 .loading { display: none; font-weight: bold; color: #d63384; margin-top: 10px; }
+
+/* تصميم مربعات الهدايا التفاعلية */
+.gifts-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 10px; margin-bottom: 10px; }
+.gift-box { background: rgba(255,182,193,0.4); border: 2px solid pink; border-radius: 12px; padding: 10px; width: 65px; font-size: 12px; cursor: pointer; transition: 0.3s; display:flex; flex-direction:column; align-items:center; justify-content:center; }
+.gift-box:hover { transform: scale(1.05); background: rgba(255,182,193,0.8); border-color: #ff1493; }
+.gift-box span { font-size: 20px; margin-bottom: 5px; }
+
+/* تأثير البالونات والإيموجي */
+.flying { position:absolute; font-size:24px; animation-name:fallZigZag; animation-timing-function: linear; animation-iteration-count: infinite; pointer-events:none; z-index: 1; }
+@keyframes fallZigZag { 0%{transform:translate(0,-50px);} 25%{transform:translate(20px,25vh);} 50%{transform:translate(-15px,50vh);} 75%{transform:translate(15px,75vh);} 100%{transform:translate(0,110vh);} }
 </style>
 </head>
 <body>
+
+<div id="emojiContainer"></div>
 
 <div id="page1" class="page">
   <div id="welcomeBox" class="box">
@@ -36,8 +48,9 @@ input, textarea { margin-top:15px; padding:10px; border-radius:8px; border:1px s
 
 <div id="page2" class="page" style="display:none">
   <div class="box">
-    <p>الآن يمكنك الدخول من جهازك الخاص!</p>
-    <input id="codeInput" type="password" placeholder="أدخل الرمز السري">
+    <p>كما أوصانا النبي ﷺ (تهادوا تحابوا)</p>
+    <p>ولتجديد ذكرى الفعالية ولإشباع فضولك حيال من ستهدي ضع سنة ميلادك بالهجري</p>
+    <input id="codeInput" type="password" placeholder="سنة ميلادك بالهجري مثلاً 1413">
     <br>
     <button onclick="checkCode()">دخول</button>
     <p id="loadingMsg" class="loading">جاري الاتصال بقاعدة البيانات... ⏳</p>
@@ -46,10 +59,10 @@ input, textarea { margin-top:15px; padding:10px; border-radius:8px; border:1px s
 </div>
 
 <div id="page3" class="page" style="display:none">
-  <div class="box" style="position: relative; max-height: 90vh; overflow-y: auto;">
-    <h3 style="font-size:20px;">أهلاً بك يا <span id="giver" style="color:#d63384; font-size:24px;"></span></h3>
-    <p style="margin-bottom:10px;">القرعة اختارت لك أن تهدي إلى:</p>
-    <h2 id="receiver" style="font-size:32px; color:#ff1493; background:rgba(255,182,193,0.5); padding:10px; border-radius:10px;"></h2>
+  <div class="box" style="position: relative; max-height: 95vh; overflow-y: auto;">
+    <h3 id="giver" style="margin-bottom:10px; font-size:24px; color:#d63384;"></h3>
+    <p style="font-size:18px; margin-bottom:10px;">انت ستهدي</p>
+    <h2 id="receiver" style="font-size:32px; color:#ff1493; background:rgba(255,182,193,0.5); padding:10px; border-radius:10px; margin-bottom:15px;"></h2>
 
     <div style="background:#fff; padding:10px; border-radius:10px; margin-bottom:15px; border: 1px dashed #ff69b4;">
       <p style="margin:0; font-weight:bold; font-size:14px;">🎁 أمنيات <span id="receiverNameHint"></span> للهدايا:</p>
@@ -57,12 +70,33 @@ input, textarea { margin-top:15px; padding:10px; border-radius:8px; border:1px s
     </div>
 
     <div style="background:rgba(255,182,193,0.3); padding:15px; border-radius:15px; margin-bottom:15px;">
-      <p style="margin:0; font-size:14px;">✍️ اكتب أمنياتك ليراها من سيهديك:</p>
-      <textarea id="myWishes" placeholder="اكتب هداياك المفضلة هنا (مثال: عطر، بطاقة روبلوكس...)" rows="2"></textarea>
+      <p style="margin:0; font-size:14px; font-weight:bold;">💌 أكتب الهدايا التي ترغب بها:</p>
+      
+      <div class="gifts-grid">
+        <div class="gift-box" onclick="addGiftText('سماعه طبيه 👨🏻‍⚕️')"><span>🎧</span>سماعه طبيه</div>
+        <div class="gift-box" onclick="addGiftText('شحن روبلوكس 👶🏻')"><span>💰</span>روبلوكس</div>
+        <div class="gift-box" onclick="addGiftText('ميكب 🎀')"><span>💄</span>ميكب</div>
+        <div class="gift-box" onclick="addGiftText('بسطار 👨🏻‍✈️')"><span>🧰</span>بسطار</div>
+        <div class="gift-box" onclick="addGiftText('عطور ❤️‍🔥')"><span>❤️‍🔥</span>عطور</div>
+      </div>
+
+      <p style="font-size: 11px; margin: 0; color: #d63384;">(اضغط على المربعات أو اكتب هديتك بنفسك)</p>
+      <textarea id="myWishes" placeholder="اكتب هنا..." rows="2"></textarea>
       <br>
       <button onclick="saveWishes()" style="font-size: 14px; padding: 5px 15px;">حفظ أمنياتي 💾</button>
-      <span id="wishSavedMsg" style="color:green; display:none; font-size:12px;">تم الحفظ!</span>
+      <span id="wishSavedMsg" style="color:green; display:none; font-size:12px; margin-right:10px;">تم الحفظ!</span>
     </div>
+
+    <div style="background:rgba(255,182,193,0.5); padding:10px; border-radius:12px; margin-bottom:15px;">
+      <p style="margin:5px 0; font-size:14px;">⏳ تبقى للعيد:</p>
+      <p style="margin:0; font-size:16px; direction:ltr; font-weight:bold;">
+        <span id="days">00</span>d : <span id="hours">00</span>h : <span id="minutes">00</span>m : <span id="seconds">00</span>s
+      </p>
+    </div>
+
+    <p style="margin-top:10px; margin-bottom:15px; font-size:12px; color:#6b2d5c; font-weight:bold;">
+      ولا يمانع من إهداء صاحبه الموقع على إجتهادها الشخصي 🥰
+    </p>
 
     <button onclick="logout()">خروج</button>
   </div>
@@ -95,7 +129,31 @@ input, textarea { margin-top:15px; padding:10px; border-radius:8px; border:1px s
 <div id="confettiContainer"></div>
 
 <script>
-// --- 0. المقلب (المربع الهارب) ---
+// --- توليد البالونات والإيموجي في الخلفية ---
+const emojiContainer = document.getElementById("emojiContainer");
+const emojis = ["🎈","🎉","💖","✨","🎊"];
+for(let i=0; i<30; i++){
+  const e = document.createElement("div");
+  e.className = "flying";
+  e.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+  e.style.left = Math.random() * window.innerWidth + "px";
+  e.style.fontSize = (20 + Math.random() * 20) + "px";
+  e.style.animationDuration = (4 + Math.random() * 6) + "s";
+  e.style.animationDelay = (Math.random() * 5) + "s";
+  emojiContainer.appendChild(e);
+}
+
+// --- إضافة النص من المربعات للخانة ---
+function addGiftText(text) {
+  const textarea = document.getElementById("myWishes");
+  if (textarea.value.includes(text)) return; 
+  if (textarea.value.trim().length > 0 && !textarea.value.trim().endsWith('،')) {
+    textarea.value += ' ، ';
+  }
+  textarea.value += text + " ";
+}
+
+// --- المقلب (المربع الهارب) ---
 let clicks = 0;
 function moveBox() {
   const box = document.getElementById("welcomeBox");
@@ -122,7 +180,7 @@ function moveBox() {
   box.style.top = y + "px";
 }
 
-// --- 1. إعدادات المستخدمين ---
+// --- إعدادات المستخدمين ---
 const users = {
   "2004":"شهد", "2008":"علياء", "2007":"راكان", "2011":"فارس",
   "1989":"احمد", "1995":"محمد", "1991":"فيصل", "1993":"رايد",
@@ -132,7 +190,7 @@ const adminCode = "0000";
 let currentUser = "";
 let currentReceiver = "";
 
-// --- 2. إعدادات Firebase الجديدة والنهائية ---
+// --- إعدادات Firebase الخاصة بمشروعك الحالي 3b454 ---
 const firebaseConfig = {
   apiKey: "AIzaSyCgehBQ_Gr-sV3R_M0Tu3am5MBl7R-rsrQ",
   authDomain: "lulu-family-3b454.firebaseapp.com",
@@ -188,7 +246,7 @@ async function checkCode() {
       renderAdminWishes(wishesSnap.exists ? wishesSnap.data() : {});
     } catch (error) {
       loading.style.display = "none";
-      msg.innerText = "فشل الاتصال! تأكد من إنشاء القاعدة (default) وتعديل Rules إلى true.";
+      msg.innerText = "فشل الاتصال! تأكد من إعداد Rules في فايربيس.";
       msg.style.color = "red";
     }
     return;
@@ -222,7 +280,7 @@ async function checkCode() {
       
     } catch(e) {
       loading.style.display = "none";
-      msg.innerText = "فشل الاتصال! تأكد من إنشاء القاعدة (default) وتعديل Rules إلى true.";
+      msg.innerText = "فشل الاتصال! تأكد من إعداد Rules في فايربيس.";
       msg.style.color = "red";
       console.error(e);
     }
@@ -324,6 +382,31 @@ async function clearHistory() {
     alert("تم تصفير النظام وقاعدة البيانات.");
   }
 }
+
+// --- عداد العيد الفعلي ---
+const eidDate = new Date("March 20, 2026 00:00:00").getTime();
+setInterval(() => {
+  const now = new Date().getTime();
+  const distance = eidDate - now;
+  
+  if(distance < 0) {
+    document.getElementById("days").innerText = "00";
+    document.getElementById("hours").innerText = "00";
+    document.getElementById("minutes").innerText = "00";
+    document.getElementById("seconds").innerText = "00";
+    return;
+  }
+  
+  let days = Math.floor(distance / (1000 * 60 * 60 * 24));
+  let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+  let seconds = Math.floor((distance % (1000 * 60)) / 1000);
+  
+  document.getElementById("days").innerText = days.toString().padStart(2, "0");
+  document.getElementById("hours").innerText = hours.toString().padStart(2, "0");
+  document.getElementById("minutes").innerText = minutes.toString().padStart(2, "0");
+  document.getElementById("seconds").innerText = seconds.toString().padStart(2, "0");
+}, 1000);
 
 // --- مؤثرات الكونفيتي ---
 function createConfetti() {
