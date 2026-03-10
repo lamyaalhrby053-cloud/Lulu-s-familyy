@@ -9,30 +9,23 @@
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 
 <style>
-body { margin:0; font-family:'Cairo', sans-serif; background: linear-gradient(135deg, #ffc0cb, #ffb6c1, #ff69b4); text-align:center; overflow-x:hidden; min-height: 100vh; position:relative; }
+body { margin:0; font-family:'Cairo', sans-serif; background: linear-gradient(135deg, #ffc0cb, #ffb6c1, #ff69b4); text-align:center; overflow-x:hidden; min-height:100vh; position:relative; }
 .page { height:100vh; display:flex; justify-content:center; align-items:center; flex-direction:column; position:relative; overflow:hidden; }
-.box { background:rgba(255,255,255,0.85); backdrop-filter:blur(15px); padding:30px; border-radius:25px; width:85%; max-width:400px; box-shadow:0 10px 25px rgba(0,0,0,0.3); transition:0.3s all ease; z-index: 10; position: absolute; }
-button { margin-top:20px; padding:10px 20px; border:none; border-radius:10px; background:#ff69b4; color:white; font-size:16px; cursor:pointer; font-family: 'Cairo', sans-serif; font-weight: bold; transition:0.3s; }
+.box { background:rgba(255,255,255,0.85); backdrop-filter:blur(15px); padding:30px; border-radius:25px; width:85%; max-width:400px; box-shadow:0 10px 25px rgba(0,0,0,0.3); transition:0.3s all ease; z-index:10; position:absolute; }
+button { margin-top:20px; padding:10px 20px; border:none; border-radius:10px; background:#ff69b4; color:white; font-size:16px; cursor:pointer; font-family:'Cairo'; font-weight:bold; transition:0.3s; }
 button:hover { transform:scale(1.05); background:#ff1493;}
 button:active { transform:scale(0.95); }
-.shake { animation:shake 0.3s; }
-@keyframes shake { 0%{transform:translate(0)} 25%{transform:translate(-5px)} 50%{transform:translate(5px)} 75%{transform:translate(-5px)} 100%{transform:translate(0)} }
-input, textarea { margin-top:15px; padding:10px; border-radius:8px; border:1px solid pink; width:80%; text-align:center; font-size:16px; font-family: 'Cairo', sans-serif;}
-.confetti-piece { position:absolute; width:10px; height:10px; z-index: 999; }
-.admin-table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 14px; }
-.admin-table th, .admin-table td { border: 1px solid #ff69b4; padding: 8px; text-align: center; }
-.admin-table th { background-color: #ffb6c1; }
-.loading { display: none; font-weight: bold; color: #d63384; margin-top: 10px; }
+input, textarea { margin-top:15px; padding:10px; border-radius:8px; border:1px solid pink; width:80%; text-align:center; font-size:16px; font-family:'Cairo';}
+.confetti-piece { position:absolute; width:10px; height:10px; z-index:999; }
 
-/* تصميم مربعات الهدايا التفاعلية */
-.gifts-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 10px; margin-bottom: 10px; }
-.gift-box { background: rgba(255,182,193,0.4); border: 2px solid pink; border-radius: 12px; padding: 10px; width: 65px; font-size: 12px; cursor: pointer; transition: 0.3s; display:flex; flex-direction:column; align-items:center; justify-content:center; }
-.gift-box:hover { transform: scale(1.05); background: rgba(255,182,193,0.8); border-color: #ff1493; }
-.gift-box span { font-size: 20px; margin-bottom: 5px; }
-
-/* تأثير البالونات والإيموجي */
-.flying { position:absolute; font-size:24px; animation-name:fallZigZag; animation-timing-function: linear; animation-iteration-count: infinite; pointer-events:none; z-index: 1; }
-@keyframes fallZigZag { 0%{transform:translate(0,-50px);} 25%{transform:translate(20px,25vh);} 50%{transform:translate(-15px,50vh);} 75%{transform:translate(15px,75vh);} 100%{transform:translate(0,110vh);} }
+.flying { position:absolute; font-size:24px; animation-name:fallZigZag; animation-timing-function:linear; animation-iteration-count:infinite; pointer-events:none; z-index:1; }
+@keyframes fallZigZag {
+0%{transform:translate(0,-50px);}
+25%{transform:translate(20px,25vh);}
+50%{transform:translate(-15px,50vh);}
+75%{transform:translate(15px,75vh);}
+100%{transform:translate(0,110vh);}
+}
 </style>
 </head>
 <body>
@@ -40,397 +33,193 @@ input, textarea { margin-top:15px; padding:10px; border-radius:8px; border:1px s
 <div id="emojiContainer"></div>
 
 <div id="page1" class="page">
-  <div id="welcomeBox" class="box">
-    <h2>❤️ كل عام وانتم بخير ❤️</h2>
-    <button onclick="moveBox()" tabindex="-1">اضغط هنا</button>
-  </div>
+<div id="welcomeBox" class="box">
+<h2>❤️ كل عام وانتم بخير ❤️</h2>
+<button onclick="moveBox()">اضغط هنا</button>
+</div>
 </div>
 
 <div id="page2" class="page" style="display:none">
-  <div class="box">
-    <p>كما أوصانا النبي ﷺ (تهادوا تحابوا)</p>
-    <p>ولتجديد ذكرى الفعالية ولإشباع فضولك حيال من ستهدي ضع سنة ميلادك</p>
-    <input id="codeInput" type="password" placeholder="ادخل سنة ميلادك مثال 2006">
-    <br>
-    <button onclick="checkCode()">دخول</button>
-    <p id="loadingMsg" class="loading">جاري الاتصال بقاعدة البيانات... ⏳</p>
-    <p id="msg" style="font-weight:bold;"></p>
-  </div>
+<div class="box">
+<p>كما أوصانا النبي ﷺ (تهادوا تحابوا)</p>
+<p>ولتجديد ذكرى الفعالية ولإشباع فضولك حيال من ستهدي ضع سنة ميلادك</p>
+<input id="codeInput" type="password" placeholder="ادخل سنة ميلادك">
+<br>
+<button onclick="checkCode()">دخول</button>
+<p id="msg"></p>
+</div>
 </div>
 
 <div id="page3" class="page" style="display:none">
-  <div class="box" style="position: relative; max-height: 95vh; overflow-y: auto;">
-    <h3 id="giver" style="margin-bottom:10px; font-size:24px; color:#d63384;"></h3>
-    <p style="font-size:18px; margin-bottom:10px;">انت ستهدي</p>
-    <h2 id="receiver" style="font-size:32px; color:#ff1493; background:rgba(255,182,193,0.5); padding:10px; border-radius:10px; margin-bottom:15px;"></h2>
+<div class="box" style="position:relative;">
+<h3 id="giver" style="margin-bottom:10px; font-size:24px; color:#d63384;"></h3>
+<p>انت ستهدي</p>
+<h2 id="receiver" style="font-size:32px; color:#ff1493;"></h2>
 
-    <div style="background:#fff; padding:10px; border-radius:10px; margin-bottom:15px; border: 1px dashed #ff69b4;">
-      <p style="margin:0; font-weight:bold; font-size:14px;">🎁 أمنيات <span id="receiverNameHint"></span> للهدايا:</p>
-      <p id="receiverWishes" style="color:#555; font-size:14px; margin-top:5px;">(لم يكتب أمنياته بعد)</p>
-    </div>
+<textarea id="myWishes" placeholder="اكتب الهدايا التي ترغب بها"></textarea>
 
-    <div style="background:rgba(255,182,193,0.3); padding:15px; border-radius:15px; margin-bottom:15px;">
-      <p style="margin:0; font-size:14px; font-weight:bold;">💌 أكتب الهدايا التي ترغب بها:</p>
-      
-      <div class="gifts-grid">
-        <div class="gift-box" onclick="addGiftText('سماعه طبيه 👨🏻‍⚕️')"><span>🎧</span>سماعه طبيه</div>
-        <div class="gift-box" onclick="addGiftText('شحن روبلوكس 👶🏻')"><span>💰</span>شحن روبلوكس</div>
-        <div class="gift-box" onclick="addGiftText('ميكب 🎀')"><span>💄</span>ميكب</div>
-        <div class="gift-box" onclick="addGiftText('بسطار 👨🏻‍✈️')"><span>🧰</span>بسطار</div>
-        <div class="gift-box" onclick="addGiftText('عطور ❤️‍🔥')"><span>❤️‍🔥</span>عطور</div>
-      </div>
-
-      <p style="font-size: 11px; margin: 0; color: #d63384;">(اضغط على المربعات أو اكتب هديتك بنفسك)</p>
-      <textarea id="myWishes" placeholder="اكتب هنا..." rows="2"></textarea>
-      <br>
-      <button onclick="saveWishes()" style="font-size: 14px; padding: 5px 15px;">حفظ أمنياتي 💾</button>
-      <span id="wishSavedMsg" style="color:green; display:none; font-size:12px; margin-right:10px;">تم الحفظ!</span>
-    </div>
-
-    <div style="background:rgba(255,182,193,0.5); padding:10px; border-radius:12px; margin-bottom:15px;">
-      <p style="margin:5px 0; font-size:14px;">⏳ تبقى للعيد:</p>
-      <p style="margin:0; font-size:16px; direction:ltr; font-weight:bold;">
-        <span id="days">00</span>d : <span id="hours">00</span>h : <span id="minutes">00</span>m : <span id="seconds">00</span>s
-      </p>
-    </div>
-
-    <p style="margin-top:10px; margin-bottom:15px; font-size:12px; color:#6b2d5c; font-weight:bold;">
-      ولا يمانع من إهداء صاحبه الموقع على إجتهادها الشخصي 🥰
-    </p>
-
-    <button onclick="logout()">خروج</button>
-  </div>
+<div style="margin-top:15px">
+⏳ تبقى للعيد:
+<p>
+<span id="days"></span>d :
+<span id="hours"></span>h :
+<span id="minutes"></span>m :
+<span id="seconds"></span>s
+</p>
 </div>
 
-<div id="pageAdmin" class="page" style="display:none">
-  <div class="box" style="position: relative; max-height: 90vh; overflow-y: auto;">
-    <h2>⚙️ لوحة الإشراف السحابية</h2>
-    <p style="font-size:14px;">يتم حفظ القرعة الآن في قاعدة البيانات ليراها الجميع.</p>
-    
-    <button onclick="generateNewDraw()" style="background:#28a745;">🎲 توليد وحفظ قرعة جديدة</button>
-    <button onclick="clearHistory()" style="background:#dc3545; font-size: 12px;">⚠️ تصفير النظام</button>
-    
-    <h3 style="margin-top:20px; font-size:16px;">القرعة الحالية:</h3>
-    <table class="admin-table" id="currentDrawTable">
-      <thead><tr><th>المهدي</th><th>المستلم</th></tr></thead>
-      <tbody id="drawTbody"></tbody>
-    </table>
+<p style="font-size:12px;">
+ولا يمانع من إهداء صاحبه الموقع على إجتهادها الشخصي 🥰
+</p>
 
-    <h3 style="margin-top:20px; font-size:16px;">🎁 قائمة أمنيات الجميع:</h3>
-    <table class="admin-table" id="adminWishesTable">
-      <thead><tr><th>الاسم</th><th>الأمنية المكتوبة</th></tr></thead>
-      <tbody id="adminWishesTbody"></tbody>
-    </table>
-
-    <button onclick="logout()">خروج</button>
-  </div>
+<button onclick="logout()">خروج</button>
+</div>
 </div>
 
 <div id="confettiContainer"></div>
 
 <script>
-// --- توليد البالونات والإيموجي في الخلفية ---
-const emojiContainer = document.getElementById("emojiContainer");
-const emojis = ["🎈","🎉","💖","✨","🎊"];
-for(let i=0; i<30; i++){
-  const e = document.createElement("div");
-  e.className = "flying";
-  e.innerText = emojis[Math.floor(Math.random() * emojis.length)];
-  e.style.left = Math.random() * window.innerWidth + "px";
-  e.style.fontSize = (20 + Math.random() * 20) + "px";
-  e.style.animationDuration = (4 + Math.random() * 6) + "s";
-  e.style.animationDelay = (Math.random() * 5) + "s";
-  emojiContainer.appendChild(e);
+
+const emojiContainer=document.getElementById("emojiContainer");
+const emojis=["🎈","🎉","💖","✨","🎊"];
+for(let i=0;i<30;i++){
+const e=document.createElement("div");
+e.className="flying";
+e.innerText=emojis[Math.floor(Math.random()*emojis.length)];
+e.style.left=Math.random()*window.innerWidth+"px";
+e.style.animationDuration=(4+Math.random()*6)+"s";
+emojiContainer.appendChild(e);
 }
 
-// --- إضافة النص من المربعات للخانة ---
-function addGiftText(text) {
-  const textarea = document.getElementById("myWishes");
-  if (textarea.value.includes(text)) return; 
-  if (textarea.value.trim().length > 0 && !textarea.value.trim().endsWith('،')) {
-    textarea.value += ' ، ';
-  }
-  textarea.value += text + " ";
+let clicks=0;
+function moveBox(){
+const box=document.getElementById("welcomeBox");
+clicks++;
+
+if(clicks==4){
+box.innerHTML=`<h2>خلاص أمزح 😆</h2>
+<button onclick="goNext()">آخر مرة اضغط هنا</button>`;
+box.style.position="relative";
+return;
 }
 
-// --- المقلب (المربع الهارب) ---
-let clicks = 0;
-function moveBox() {
-  const box = document.getElementById("welcomeBox");
-  clicks++;
-  box.classList.add("shake");
-  setTimeout(() => { box.classList.remove("shake"); }, 300);
-  
-  if(clicks == 4) {
-    box.innerHTML = `<h2>خلاص أمزح 😆</h2>
-    <button onclick="goNext()">آخر مرة اضغط هنا</button>`;
-    box.style.position = "relative";
-    box.style.left = "auto";
-    box.style.top = "auto";
-    return;
-  }
-  
-  const maxX = window.innerWidth - box.offsetWidth - 20;
-  const maxY = window.innerHeight - box.offsetHeight - 20;
-  const x = Math.max(10, Math.random() * maxX);
-  const y = Math.max(10, Math.random() * maxY);
-  
-  box.style.position = "absolute";
-  box.style.left = x + "px";
-  box.style.top = y + "px";
+const maxX=window.innerWidth-box.offsetWidth-20;
+const maxY=window.innerHeight-box.offsetHeight-20;
+
+box.style.position="absolute";
+box.style.left=Math.random()*maxX+"px";
+box.style.top=Math.random()*maxY+"px";
 }
 
-// --- إعدادات المستخدمين ---
-const users = {
- "2007":"راكان", "1995":"محمد", "1993":"رايد",
-  "1997":"نجد", "2001":"غاده", "1425":"لولو"
-};
-const adminCode = "0000";
-let currentUser = "";
-let currentReceiver = "";
+function goNext(){
+document.getElementById("page1").style.display="none";
+document.getElementById("page2").style.display="flex";
+}
 
-// --- إعدادات Firebase الخاصة بمشروعك الحالي 3b454 ---
-const firebaseConfig = {
-  apiKey: "AIzaSyCgehBQ_Gr-sV3R_M0Tu3am5MBl7R-rsrQ",
-  authDomain: "lulu-family-3b454.firebaseapp.com",
-  projectId: "lulu-family-3b454",
-  storageBucket: "lulu-family-3b454.firebasestorage.app",
-  messagingSenderId: "70161323618",
-  appId: "1:70161323618:web:bcf7a7d902c73bed9be33b"
+const users={
+"2007":"راكان",
+"1995":"محمد",
+"1993":"رايد",
+"1997":"نجد",
+"2001":"غاده",
+"1425":"لولو",
+"1968":"ماما فوفه"
 };
 
-// تهيئة قاعدة البيانات
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
+let currentUser="";
+let currentReceiver="";
 
-// مراجع قاعدة البيانات
-const drawDoc = db.collection("lulu_family").doc("current_draw");
-const wishesDoc = db.collection("lulu_family").doc("wishes");
+function checkCode(){
+const input=document.getElementById("codeInput").value;
+const msg=document.getElementById("msg");
+const person=users[input];
 
-// --- التنقل ---
-function goNext() {
-  document.getElementById("page1").style.display = "none";
-  document.getElementById("page2").style.display = "flex";
+if(person){
+currentUser=person;
+
+const names=Object.values(users);
+let receivers=[...names].sort(()=>Math.random()-0.5);
+
+for(let i=0;i<names.length;i++){
+if(names[i]===receivers[i]){
+receivers=[...names].sort(()=>Math.random()-0.5);
+i=-1;
+}
 }
 
-function logout() {
-  document.getElementById("page3").style.display = "none";
-  document.getElementById("pageAdmin").style.display = "none";
-  document.getElementById("page2").style.display = "flex";
-  document.getElementById("codeInput").value = "";
-  document.getElementById("msg").innerText = "";
-  document.getElementById("confettiContainer").innerHTML = ""; 
-  currentUser = "";
+const draw={};
+names.forEach((name,i)=>draw[name]=receivers[i]);
+
+currentReceiver=draw[currentUser];
+
+document.getElementById("page2").style.display="none";
+document.getElementById("page3").style.display="flex";
+
+document.getElementById("giver").innerText=currentUser;
+document.getElementById("receiver").innerText=currentReceiver;
+
+createConfetti();
+
+}else{
+msg.innerText="الرمز غير صحيح ❌";
+msg.style.color="red";
+}
 }
 
-// --- فحص الدخول وقراءة البيانات السحابية ---
-async function checkCode() {
-  const input = document.getElementById("codeInput").value;
-  const msg = document.getElementById("msg");
-  const loading = document.getElementById("loadingMsg");
-  
-  msg.innerText = "";
-  
-  if(input === adminCode) {
-    loading.style.display = "block";
-    try {
-      const docSnap = await drawDoc.get();
-      const wishesSnap = await wishesDoc.get();
-      loading.style.display = "none";
-      
-      document.getElementById("page2").style.display = "none";
-      document.getElementById("pageAdmin").style.display = "flex";
-      
-      renderAdminTable(docSnap.exists ? docSnap.data().draw : {});
-      renderAdminWishes(wishesSnap.exists ? wishesSnap.data() : {});
-    } catch (error) {
-      loading.style.display = "none";
-      msg.innerText = "فشل الاتصال! تأكد من إعداد Rules في فايربيس.";
-      msg.style.color = "red";
-    }
-    return;
-  }
-
-  const person = users[input];
-  if(person) {
-    loading.style.display = "block";
-    try {
-      const docSnap = await drawDoc.get();
-      loading.style.display = "none";
-
-      if(!docSnap.exists || !docSnap.data().draw || Object.keys(docSnap.data().draw).length === 0) {
-        msg.innerText = "المشرف لم يقم بإنشاء قرعة حتى الآن!";
-        msg.style.color = "red";
-        return;
-      }
-
-      currentUser = person;
-      currentReceiver = docSnap.data().draw[person];
-      
-      document.getElementById("page2").style.display = "none";
-      document.getElementById("page3").style.display = "flex";
-      
-      document.getElementById("giver").innerText = currentUser;
-      document.getElementById("receiver").innerText = currentReceiver;
-      document.getElementById("receiverNameHint").innerText = currentReceiver;
-
-      loadWishes();
-      createConfetti();
-      
-    } catch(e) {
-      loading.style.display = "none";
-      msg.innerText = "فشل الاتصال! تأكد من إعداد Rules في فايربيس.";
-      msg.style.color = "red";
-      console.error(e);
-    }
-  } else {
-    msg.innerText = "الرمز غير صحيح ❌";
-    msg.style.color = "red";
-  }
+function logout(){
+document.getElementById("page3").style.display="none";
+document.getElementById("page2").style.display="flex";
+document.getElementById("codeInput").value="";
 }
 
-// --- حفظ وقراءة الأمنيات ---
-async function loadWishes() {
-  const wishesSnap = await wishesDoc.get();
-  if(wishesSnap.exists) {
-    const data = wishesSnap.data();
-    document.getElementById("receiverWishes").innerText = data[currentReceiver] || "(لم يكتب أمنياته بعد)";
-    document.getElementById("myWishes").value = data[currentUser] || "";
-  }
+const eidDate=new Date("March 20, 2026 00:00:00").getTime();
+
+setInterval(()=>{
+const now=new Date().getTime();
+const distance=eidDate-now;
+
+let days=Math.floor(distance/(1000*60*60*24));
+let hours=Math.floor((distance%(1000*60*60*24))/(1000*60*60));
+let minutes=Math.floor((distance%(1000*60*60))/(1000*60));
+let seconds=Math.floor((distance%(1000*60))/1000);
+
+document.getElementById("days").innerText=days;
+document.getElementById("hours").innerText=hours;
+document.getElementById("minutes").innerText=minutes;
+document.getElementById("seconds").innerText=seconds;
+
+},1000);
+
+function createConfetti(){
+const container=document.getElementById("confettiContainer");
+container.innerHTML="";
+
+for(let i=0;i<40;i++){
+const c=document.createElement("div");
+c.className="confetti-piece";
+c.style.backgroundColor=`hsl(${Math.random()*360},80%,60%)`;
+c.style.left=Math.random()*window.innerWidth+"px";
+c.style.top="-10px";
+
+container.appendChild(c);
+
+let speed=2+Math.random()*3;
+
+(function animate(el,s){
+let top=0;
+function frame(){
+top+=s;
+el.style.top=top+"px";
+if(top<window.innerHeight)requestAnimationFrame(frame);
+else el.remove();
+}
+frame();
+})(c,speed);
+
+}
 }
 
-async function saveWishes() {
-  const myWishText = document.getElementById("myWishes").value;
-  await wishesDoc.set({ [currentUser]: myWishText }, { merge: true });
-  
-  const savedMsg = document.getElementById("wishSavedMsg");
-  savedMsg.style.display = "inline-block";
-  setTimeout(() => savedMsg.style.display = "none", 3000);
-}
-
-// --- لوحة الإشراف ---
-async function generateNewDraw() {
-  const names = Object.values(users);
-  let validDraw = false;
-  let newDraw = {};
-  
-  const docSnap = await drawDoc.get();
-  let history = docSnap.exists ? (docSnap.data().history || []) : [];
-
-  let attempts = 0;
-  while (!validDraw && attempts < 2000) {
-    let receivers = [...names].sort(() => Math.random() - 0.5);
-    validDraw = true;
-    newDraw = {};
-
-    for (let i = 0; i < names.length; i++) {
-      let giver = names[i];
-      let receiver = receivers[i];
-      if (giver === receiver) { validDraw = false; break; }
-      let inHistory = history.some(pastDraw => pastDraw[giver] === receiver);
-      if (inHistory) { validDraw = false; break; }
-      newDraw[giver] = receiver;
-    }
-    attempts++;
-  }
-
-  if(validDraw) {
-    if(docSnap.exists && docSnap.data().draw) {
-      history.push(docSnap.data().draw);
-      if(history.length > 2) history.shift();
-    }
-    
-    await drawDoc.set({ draw: newDraw, history: history });
-    alert("✅ تم رفع القرعة إلى السيرفر بنجاح!");
-    renderAdminTable(newDraw);
-  } else {
-    alert("❌ فشل النظام في إيجاد تركيبة بدون تكرار! الرجاء تصفير النظام.");
-  }
-}
-
-function renderAdminTable(drawData) {
-  const tbody = document.getElementById("drawTbody");
-  tbody.innerHTML = "";
-  if(drawData && Object.keys(drawData).length > 0) {
-    for(let giver in drawData) {
-      tbody.innerHTML += `<tr><td>${giver}</td><td>${drawData[giver]}</td></tr>`;
-    }
-  } else {
-    tbody.innerHTML = "<tr><td colspan='2'>لا توجد قرعة نشطة</td></tr>";
-  }
-}
-
-function renderAdminWishes(wishesData) {
-  const tbody = document.getElementById("adminWishesTbody");
-  tbody.innerHTML = "";
-  if(wishesData && Object.keys(wishesData).length > 0) {
-    for(let person in wishesData) {
-      tbody.innerHTML += `<tr><td>${person}</td><td>${wishesData[person]}</td></tr>`;
-    }
-  } else {
-    tbody.innerHTML = "<tr><td colspan='2'>لم يقم أحد بكتابة أمنياته بعد</td></tr>";
-  }
-}
-
-async function clearHistory() {
-  if(confirm("هل أنت متأكد من مسح السجل والقرعات؟")) {
-    await drawDoc.set({ draw: {}, history: [] });
-    await wishesDoc.set({});
-    renderAdminTable({});
-    renderAdminWishes({});
-    alert("تم تصفير النظام وقاعدة البيانات.");
-  }
-}
-
-// --- عداد العيد الفعلي ---
-const eidDate = new Date("March 20, 2026 00:00:00").getTime();
-setInterval(() => {
-  const now = new Date().getTime();
-  const distance = eidDate - now;
-  
-  if(distance < 0) {
-    document.getElementById("days").innerText = "00";
-    document.getElementById("hours").innerText = "00";
-    document.getElementById("minutes").innerText = "00";
-    document.getElementById("seconds").innerText = "00";
-    return;
-  }
-  
-  let days = Math.floor(distance / (1000 * 60 * 60 * 24));
-  let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-  let seconds = Math.floor((distance % (1000 * 60)) / 1000);
-  
-  document.getElementById("days").innerText = days.toString().padStart(2, "0");
-  document.getElementById("hours").innerText = hours.toString().padStart(2, "0");
-  document.getElementById("minutes").innerText = minutes.toString().padStart(2, "0");
-  document.getElementById("seconds").innerText = seconds.toString().padStart(2, "0");
-}, 1000);
-
-// --- مؤثرات الكونفيتي ---
-function createConfetti() {
-  const container = document.getElementById("confettiContainer");
-  container.innerHTML = "";
-  for(let i=0; i<50; i++) {
-    const c = document.createElement("div");
-    c.className = "confetti-piece";
-    c.style.backgroundColor = `hsl(${Math.random()*360}, 80%, 60%)`;
-    c.style.left = Math.random() * window.innerWidth + "px";
-    c.style.top = "-10px";
-    container.appendChild(c);
-    let speed = 2 + Math.random() * 3;
-    (function animateConfetti(el, s) {
-      let top = 0;
-      function frame() {
-        top += s;
-        el.style.top = top + "px";
-        if(top < window.innerHeight) requestAnimationFrame(frame);
-        else el.remove();
-      }
-      frame();
-    })(c, speed);
-  }
-}
 </script>
+
 </body>
 </html>
